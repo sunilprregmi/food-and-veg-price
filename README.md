@@ -40,43 +40,62 @@ Example response:
 }
 ```
 
-## Deployment
+## Deployment  
 
-To deploy this script to your Cloudflare Workers account, follow these steps:
+Follow these steps to deploy the script on your Cloudflare Workers account:  
 
-1. Clone this GitHub repository to your local machine:
+### 1. **Get the Code**  
+Clone the repository or manually copy the script:  
+- **Clone via Git**:  
+  ```bash
+  git clone https://github.com/sunilprregmi/food-and-veg-price.git
+  cd food-and-veg-price
+  ```
+- **Manual Copy**:  
+  Copy the script from the repository and save it as `workers.js` on your local machine.
 
-```bash
-git clone https://github.com/sunilprregmi/food-and-veg-price.git
+### 2. **Set Up a Cloudflare Worker**  
+1. **Log In to Cloudflare Workers**  
+   Visit [Cloudflare Workers](https://workers.cloudflare.com/) and log in or create a free account.  
+
+2. **Create a New Worker**  
+   - Go to **Workers** > **Create a Worker**.  
+   - Replace the default Worker code with the `workers.js` script.  
+
+### 3. **Deploy Using Wrangler (Optional)**  
+To use the Cloudflare Wrangler CLI:  
+
+1. **Install Wrangler**:  
+   ```bash
+   npm install -g @cloudflare/wrangler
+   ```  
+
+2. **Log in to Cloudflare**:  
+   ```bash
+   wrangler login
+   ```  
+
+3. **Modify `wrangler.toml`**  
+   Update the `account_id` field in the `wrangler.toml` file:  
+   ```toml
+   account_id = "<YOUR_ACCOUNT_ID>"
+   ```  
+   Replace `<YOUR_ACCOUNT_ID>` with your Cloudflare account ID (found in your Cloudflare dashboard).  
+
+4. **Publish the Worker**:  
+   ```bash
+   wrangler publish
+   ```  
+
+### 4. **Access Your API**  
+Once deployed, your API will be available at your Worker’s URL:  
 ```
-
-2. Install the Cloudflare Workers CLI:
-
-```bash
-npm install -g @cloudflare/wrangler
+https://<your-worker-subdomain>.workers.dev/
+```  
+Example:  
 ```
-
-3. Navigate to the project directory:
-
-```bash
-cd food-and-veg-price
+https://www.sunilprasad.com.np/agro-dar/
 ```
-
-4. Modify the `wrangler.toml` file with your Cloudflare account ID:
-
-```toml
-account_id = "<YOUR_ACCOUNT_ID>"
-```
-
-Replace `<YOUR_ACCOUNT_ID>` with your actual Cloudflare account ID.
-
-5. Build and deploy the script using Wrangler:
-
-```bash
-wrangler publish
-```
-
-6. Your Cloudflare Workers script is now deployed! You can access it via the provided URL.
 
 ## Contributing
 
