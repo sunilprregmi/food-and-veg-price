@@ -6,7 +6,7 @@ A Cloudflare Workers script to fetch daily vegetable prices from the Kalimati Ma
 To use this service, simply make a GET request to the deployed Cloudflare Workers URL:
 
 ```
-https://www.sunilprasad.com.np/agro-dar/
+https://www.sunilprasad.com.np/agro-dar
 ```
 
 ### Response Format
@@ -94,7 +94,7 @@ https://<your-worker-subdomain>.workers.dev/
 ```  
 Example:  
 ```
-https://www.sunilprasad.com.np/agro-dar/
+https://agro-dar.spr.workers.dev
 ```
 
 ## Contributing
