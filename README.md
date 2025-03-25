@@ -6,8 +6,25 @@ A Cloudflare Workers script to fetch daily vegetable prices from the Kalimati Ma
 To use this service, simply make a GET request to the deployed Cloudflare Workers URL:
 
 ```
-https://www.sunilprasad.com.np/agro-dar
+https://www.sunilprasad.com.np/agro-dar   
 ```
+## API Features:
+ssh-keygen -t rsa -b 4096 -C "krishchalregmi123@gmail.com"
+
+Search Functionality with comodity
+
+```
+https://www.sunilprasad.com.np/agro-dar?commodity=गोलभेडा   
+```
+It will return गोलभेडा  price details
+
+Filter by Price Range (e.g., 50 to 100 NPR)
+
+```
+https://www.sunilprasad.com.np/agro-dar?minPrice=50&maxPrice=100
+```
+It will return all the vegetable with the range of given price
+
 
 ### Response Format
 
@@ -65,10 +82,16 @@ Clone the repository or manually copy the script:
 ### 3. **Deploy Using Wrangler (Optional)**  
 To use the Cloudflare Wrangler CLI:  
 
-1. **Install Wrangler**:  
+1. **Install Wrangler and cheerio**:  
    ```bash
    npm install -g @cloudflare/wrangler
    ```  
+
+   ```bash
+   npm install -g cheerio
+   ```  
+
+
 
 2. **Log in to Cloudflare**:  
    ```bash
