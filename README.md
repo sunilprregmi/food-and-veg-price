@@ -1,130 +1,111 @@
 # food-and-veg-price
-A Cloudflare Workers script to fetch daily vegetable prices from the Kalimati Market website and provide them as a JSON API. This API includes pricing details, dates in BS/AD formats, and additional metadata. Perfect for developers building applications with real-time vegetable price data from Nepal.
 
-## Usage
+A Cloudflare Workers script that scrapes daily vegetable prices from the Kalimati Market website (https://kalimatimarket.gov.np) and serves them as a JSON API. The script extracts pricing details from the commodity price table and provides dates in both Bikram Sambat (BS) and Gregorian (AD) formats.
 
-To use this service, simply make a GET request to the deployed Cloudflare Workers URL:
+## Features
 
+- Scrapes real-time vegetable prices from Kalimati Market
+- Converts tabular HTML data to structured JSON
+- Provides dates in both BS (Nepali) and AD formats
+- CORS enabled for cross-origin requests
+- Error handling in Nepali language
+- Filter results by commodity name and price range
+
+## API Usage
+
+### Basic Request
+Make a GET request to:
 ```
-https://www.sunilprasad.com.np/agro-dar   
+https://www.sunilprasad.com.np/agro-dar
 ```
-## API Features:
-ssh-keygen -t rsa -b 4096 -C "krishchalregmi123@gmail.com"
 
-Search Functionality with comodity
+### Query Parameters
+You can filter the results using the following optional parameters:
+- `commodity`: Filter by specific commodity name
+- `minPrice`: Minimum average price
+- `maxPrice`: Maximum average price
 
+Example with filters:
 ```
-https://www.sunilprasad.com.np/agro-dar?commodity=गोलभेडा   
+https://www.sunilprasad.com.np/agro-dar?commodity=Tomato&minPrice=50&maxPrice=100
 ```
-It will return गोलभेडा  price details
-
-Filter by Price Range (e.g., 50 to 100 NPR)
-
-```
-https://www.sunilprasad.com.np/agro-dar?minPrice=50&maxPrice=100
-```
-It will return all the vegetable with the range of given price
-
 
 ### Response Format
 
-The response will be in JSON format and will contain the following fields:
-
-- `date_bs`: The date in Bikram Sambat (BS) format (Nepali calendar).
-- `date_ad`: The date in Gregorian calendar format (AD).
-- `copyright`: The URL of the Kalimati Market website.
-- `scrapped_by`: The name of the script that fetched the data.
-- `data`: An array containing the vegetable prices. Each item in the array represents a vegetable and its corresponding price details.
-
-Example response:
+The API returns JSON with the following structure:
 
 ```json
 {
-  "date_bs": "माघ ०६, २०८१",
-  "date_ad": "January 19, 2025",
+  "date_bs": "वि.सं. माघ ०६, २०८१",
+  "date_ad": "January 19, 2024",
   "copyright": "https://kalimatimarket.gov.np",
   "scrapped_by": "Sunil Prasad Regmi",
   "data": [
     {
-      "कृषि उपज": "गोलभेडा ठूलो(भारतीय)",
-      "ईकाइ": "केजी",
-      "न्यूनतम": "रू ६०.००",
-      "अधिकतम": "रू ७०.००",
-      "औसत": "रू ६५.००"
-    },
-    ...
+      "commodity": {
+        "id": "001-001",
+        "nepali": "गोलभेडा ठूलो(भारतीय)",
+        "english": "Tomato Large (Indian)",
+        "prices": {
+          "unit": {
+            "nepali": "केजी",
+            "english": "KG"
+          },
+          "minimum": {
+            "nepali": "रू ६०.००",
+            "english": "NPR 60.00"
+          },
+          "maximum": {
+            "nepali": "रू ७०.००",
+            "english": "NPR 70.00"
+          },
+          "average": {
+            "nepali": "रू ६५.००",
+            "english": "NPR 65.00"
+          }
+        }
+      }
+    }
+    // ... more items
   ]
 }
 ```
 
-## Deployment  
+### Features
 
-Follow these steps to deploy the script on your Cloudflare Workers account:  
+- Bilingual support (Nepali and English) for:
+  - Commodity names
+  - Units of measurement
+  - Prices
+- Unique ID for each commodity
+- Structured price information
+- Date in both BS and AD formats```
 
-### 1. **Get the Code**  
-Clone the repository or manually copy the script:  
-- **Clone via Git**:  
-  ```bash
-  git clone https://github.com/sunilprregmi/food-and-veg-price.git
-  cd food-and-veg-price
-  ```
-- **Manual Copy**:  
-  Copy the script from the repository and save it as `workers.js` on your local machine.
+### Error Responses
 
-### 2. **Set Up a Cloudflare Worker**  
-1. **Log In to Cloudflare Workers**  
-   Visit [Cloudflare Workers](https://workers.cloudflare.com/) and log in or create a free account.  
+- If the source website is unavailable: `डाटा फेला परेन!`
+- If price table is not found: `तालिका फेला परेन!`
 
-2. **Create a New Worker**  
-   - Go to **Workers** > **Create a Worker**.  
-   - Replace the default Worker code with the `workers.js` script.  
+## Deployment
 
-### 3. **Deploy Using Wrangler (Optional)**  
-To use the Cloudflare Wrangler CLI:  
+### 1. Clone the Repository
 
-1. **Install Wrangler and cheerio**:  
-   ```bash
-   npm install -g @cloudflare/wrangler
-   ```  
-
-   ```bash
-   npm install -g cheerio
-   ```  
-
-
-
-2. **Log in to Cloudflare**:  
-   ```bash
-   wrangler login
-   ```  
-
-3. **Modify `wrangler.toml`**  
-   Update the `account_id` field in the `wrangler.toml` file:  
-   ```toml
-   account_id = "<YOUR_ACCOUNT_ID>"
-   ```  
-   Replace `<YOUR_ACCOUNT_ID>` with your Cloudflare account ID (found in your Cloudflare dashboard).  
-
-4. **Publish the Worker**:  
-   ```bash
-   wrangler publish
-   ```  
-
-### 4. **Access Your API**  
-Once deployed, your API will be available at your Worker’s URL:  
+```bash
+git clone https://github.com/sunilprregmi/food-and-veg-price.git
+cd food-and-veg-price
 ```
-https://<your-worker-subdomain>.workers.dev/
-```  
-Example:  
-```
-https://agro-dar.spr.workers.dev
-```
+
+### 2. Deploy to Cloudflare Workers
+
+1. Log in to [Cloudflare Workers](https://workers.cloudflare.com/)
+2. Create a new Worker
+3. Copy the contents of `cloudflare-workers.js` into the Worker editor
+4. Save and deploy
 
 ## Contributing
 
-Contributions are welcome! If you find any issues or have suggestions for improvements, please open an issue or create a merge request.
+Contributions are welcome! Please feel free to submit a Pull Request.
 
 ## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
